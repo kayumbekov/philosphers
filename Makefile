@@ -1,0 +1,52 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kbekov <kbekov@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/08/04 02:26:51 by kbekov            #+#    #+#              #
+#    Updated: 2025/08/06 02:13:56 by kbekov           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME := philo
+
+CC := cc 
+CFLAGS := -Wall -Werror -Wextra -g -pthread
+
+INCLUDE := -I include
+SRCS := check_life.c exit.c parse.c philo_time.c philo_utils.c philo.c routine.c
+SRCS := $(addprefix src/, $(SRCS))
+OBJS :=  $(SRCS:.c=.o)
+
+RED=\033[0;31m
+ROSE=\033[0;95m
+GREEN=\033[0;32m
+NC=\033[0m
+YELLOW=\033[0;33m
+CYAN=\033[1;34m 
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	@echo "$(GREEN)Creating philosopher...$(NC)"
+	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME) $(INCLUDE)
+	@echo "$(CYAN) ====== DONE ! ======\n$(NC)"
+
+%.o:%.c
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ 
+
+re: fclean all
+
+clean:
+	@echo "\n$(RED)Cleaning project Philo...$(NC)"
+	@rm -rf $(OBJS)
+
+fclean: clean
+	@echo "$(YELLOW)Deleted philo file...$(NC)"
+	@rm -rf $(NAME)
+	@echo "$(CYAN) ====== DONE ! ======\n$(NC)"
+
+	
+.PHONY: all re clean fclean
